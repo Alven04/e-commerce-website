@@ -1,6 +1,7 @@
 <?php
   require_once 'auth_check.php';
   include_once 'orders_crud.php';
+  include_once 'access_rights.php';
 ?>
  
 <!DOCTYPE html>
@@ -73,55 +74,58 @@
           </div>
       </div>
 
-      <div class="form-group">
-          <label for="customerid" class="col-sm-3 control-label">Customer</label>
-          <div class="col-sm-9">
-          <select name="cid" class="form-control" id="customerid" required>
-          <option value="">Please select</option>
-          <?php
-          try {
-            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-              $stmt = $conn->prepare("SELECT * FROM tbl_customers_a186683_pt2");
-            $stmt->execute();
-            $result = $stmt->fetchAll();
-          }
-          catch(PDOException $e){
-                echo "Error: " . $e->getMessage();
-          }
-          foreach($result as $custrow) {
-          ?>
-            <?php if((isset($_GET['edit'])) && ($editrow['fld_customer_num']==$custrow['fld_customer_num'])) { ?>
-              <option value="<?php echo $custrow['fld_customer_num']; ?>" selected><?php echo $custrow['fld_customer_fname']." ".$custrow['fld_customer_lname']?></option>
-            <?php } else { ?>
-              <option value="<?php echo $custrow['fld_customer_num']; ?>"><?php echo $custrow['fld_customer_fname']." ".$custrow['fld_customer_lname']?></option>
-            <?php } ?>
-          <?php
-          } // while
-          $conn = null;
-          ?> 
-          </select>
-        </div>
+          <div class="form-group">
+            <label for="cid" class="col-sm-3 control-label">Customer</label>
+            <div class="col-sm-9">
+              <select name="cid" class="form-control" id="cid">
+                <?php
+                try {
+                  $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                  $stmt = $conn->prepare("SELECT * FROM tbl_customers_a186683_pt2");
+                  $stmt->execute();
+                  $result = $stmt->fetchAll();
+                } catch (PDOException $e) {
+                  echo "Error: " . $e->getMessage();
+                }
+                foreach ($result as $custrow) {
+                  ?>
+                  <?php if ((isset($_GET['edit'])) && ($editrow['fld_customer_num'] == $custrow['fld_customer_num'])) { ?>
+                    <option value="<?php echo $custrow['fld_customer_num']; ?>" selected>
+                      <?php echo $custrow['fld_customer_fname'] . " " . $custrow['fld_customer_lname'] ?>
+                    </option>
+                  <?php } else { ?>
+                    <option value="<?php echo $custrow['fld_customer_num']; ?>">
+                      <?php echo $custrow['fld_customer_fname'] . " " . $custrow['fld_customer_lname'] ?>
+                    </option>
+                  <?php } ?>
+                  <?php
+                } // while
+                $conn = null;
+                ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <?php if (isset($_GET['edit'])) { ?>
+                <button class="btn btn-default" type="submit" name="update"><span class="glyphicon glyphicon-pencil"
+                    aria-hidden="true"></span> Update</button>
+              <?php } else { ?>
+                <button class="btn btn-default" type="submit" name="create"><span class="glyphicon glyphicon-plus"
+                    aria-hidden="true"></span> Create</button>
+              <?php } ?>
+              <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase"
+                  aria-hidden="true"></span> Clear</button>
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-9">
-          <?php if (isset($_GET['edit'])) { ?>
-          <input type="hidden" name="oldpid" value="<?php echo $editrow['fld_product_num']; ?>">
-          <button class="btn btn-default" type="submit" name="update"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update</button>
-          <?php } else { ?>
-          <button class="btn btn-default" type="submit" name="create"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</button>
-          <?php } ?>
-          <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span> Clear</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-    
+    </div>
     <div class="row">
     <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
       <div class="page-header">
-        <h2>Staffs List</h2>
+        <h2>Order List</h2>
       </div>
     <table class="table table-striped table-bordered">
       <tr>
@@ -160,9 +164,15 @@
         <td><?php echo $orderrow['fld_staff_fname']." ".$orderrow['fld_staff_lname'] ?></td>
         <td><?php echo $orderrow['fld_customer_fname']." ".$orderrow['fld_customer_lname'] ?></td>
         <td>
+          <center>
           <a href="orders_details.php?oid=<?php echo $orderrow['fld_order_num']; ?>" class="btn btn-warning btn-xs" role="button">Details</a>
-          <a href="orders.php?edit=<?php echo $orderrow['fld_order_num']; ?>" class="btn btn-success btn-xs" role="button">Edit</a>
+          <?php if ($_SESSION['access'] != "N"): ?>
+            <a href="orders.php?edit=<?php echo $orderrow['fld_order_num']; ?>" class="btn btn-success btn-xs" role="button">Edit</a>
+          <?php endif; ?>
+          <?php if ($_SESSION['access'] != "N"): ?>
           <a href="orders.php?delete=<?php echo $orderrow['fld_order_num']; ?>" onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs" role="button">Delete</a>
+          <?php endif; ?>
+          </center>
         </td>
       </tr>
       <?php

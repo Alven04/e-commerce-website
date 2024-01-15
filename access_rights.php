@@ -25,6 +25,27 @@ switch ($scriptFilename) {
             exit();
         }
         break;
+
+    case 'products.php':
+    case 'productstest.php':
+    // same as customers.php
+    case 'customers.php':
+        if ($currentLevel == "Normal") {
+            $_SESSION['access'] = 'N';
+        } else {
+            $_SESSION['access'] = 'A';
+        }
+        break;
+    case 'orders.php':
+        if ($currentLevel == "Normal") {
+            $_SESSION['access'] = 'N';
+        } else {
+            $_SESSION['access'] = 'A';
+        }
+        break;
+
+    default:
+        break;
 }
 
 ?>

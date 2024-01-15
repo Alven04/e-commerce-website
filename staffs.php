@@ -97,7 +97,7 @@
           <input type="hidden" name="oldsid" value="<?php echo $editrow['fld_staff_num']; ?>">
           <button class="btn btn-default" type="submit" name="update"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update</button>
           <?php } else { ?>
-          <button class="btn btn-default" type="submit" name="create"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</button>
+          <button class="btn btn-default" type="submit" name="create" <?php echo ($_SESSION['access'] === 'S' && $_SESSION['access'] === 'S') ? 'disabled' : ''; ?>><span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> Create</button>
           <?php } ?>
           <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span> Clear</button>
         </div>
@@ -156,11 +156,19 @@
                 <?php echo $readrow['fld_staff_level']; ?>
               </td>
               <td>
+              <center>
               <a href="staffs.php?edit=<?php echo $readrow['fld_staff_num']; ?>" class="btn btn-success btn-xs"
-                  role="button"> Edit </a>
+                  role="button"> Edit 
+              </a>
+              </center>
+
+              <?php if ($_SESSION['access'] != "S"): ?>
                 <a href="staffs.php?delete=<?php echo $readrow['fld_staff_num']; ?>"
                   onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs"
                   role="button">Delete</a>
+              <?php endif; ?>
+
+
               </td>
             </tr>
             <?php
