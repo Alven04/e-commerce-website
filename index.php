@@ -1,3 +1,7 @@
+<?php
+  require_once "auth_check.php";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

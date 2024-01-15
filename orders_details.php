@@ -1,4 +1,6 @@
 <?php
+  include_once 'auth_check.php';
+  include_once 'access_rights.php';
   include_once 'orders_details_crud.php';
 ?>
 

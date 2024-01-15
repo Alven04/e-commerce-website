@@ -1,5 +1,7 @@
 <?php
+  include_once 'auth_check.php';
   include_once 'database.php';
+  include_once 'access_rights.php';
 ?>
 <?php
 try {
@@ -58,7 +60,7 @@ $conn = null;
   <div class="col-xs-5">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4>From: My Bike Sdn. Bhd.</h4>
+        <h4>From: American Football Equipment and Supplies Sdn. Bhd.</h4>
       </div>
       <div class="panel-body">
         <p>
