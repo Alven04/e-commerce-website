@@ -179,17 +179,22 @@
   </div>
 </div>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <!-- responsive -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap.min.js"></script>
 
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
 
-
+    <link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css">
+      <link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/buttons/1.13.7/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <script>
     jQuery(document).ready(function() {
         $('.detail_btn').click(function(e) {
@@ -222,8 +227,7 @@
 
         paging_type: 'full_numbers',
         columnDefs: [{
-          targets: [3, 4],
-          searchable: false
+          'searchable' : false, 'targets' : 2
         }],
         order: [
           [1, "asc"]

@@ -8,7 +8,7 @@ session_start();
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the user input
-    $staffname = $_POST['username'];
+    $staffId = $_POST['username'];
     $password = $_POST['password'];
 
     // Validate input (you may want to add more validation)
@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     // Fetch user data from the database
-    $sql = "SELECT fld_staff_num, fld_staff_fname,fld_staff_lname, fld_staff_position, fld_staff_level, fld_staff_password FROM tbl_staffs_a186683_pt2 WHERE fld_staff_fname = :s";
+    $sql = "SELECT fld_staff_num, fld_staff_fname,fld_staff_lname, fld_staff_position, fld_staff_level, fld_staff_password FROM tbl_staffs_a186683_pt2 WHERE fld_staff_num = :s";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(":s", $staffname, PDO::PARAM_STR);
+    $stmt->bindParam(":s", $staffId, PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($result) {

@@ -1,6 +1,7 @@
 <?php
   require_once 'auth_check.php';
   include_once 'customers_crud.php';
+  include_once 'access_rights.php';
 ?>
  
 <!DOCTYPE html>
@@ -128,10 +129,13 @@
         <td><?php echo $readrow['fld_customer_lname']; ?></td>
         <td><?php echo $readrow['fld_customer_gender']; ?></td>
         <td><?php echo $readrow['fld_customer_phone']; ?></td>
+        
         <?php if ($_SESSION['access'] != "N"): ?>
         <td>
+          <center>
               <a href="customers.php?edit=<?php echo $readrow['fld_customer_num']; ?>" class="btn btn-success btn-xs" role="button">Edit</a>
               <a href="customers.php?delete=<?php echo $readrow['fld_customer_num']; ?>" onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs" role="button">Delete</a>
+          </center>
         </td>
         <?php endif; ?>
       </tr>

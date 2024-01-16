@@ -160,7 +160,7 @@
               <a href="staffs.php?edit=<?php echo $readrow['fld_staff_num']; ?>" class="btn btn-success btn-xs"
                   role="button"> Edit 
               </a>
-              </center>
+              
 
               <?php if ($_SESSION['access'] != "S"): ?>
                 <a href="staffs.php?delete=<?php echo $readrow['fld_staff_num']; ?>"
@@ -168,7 +168,7 @@
                   role="button">Delete</a>
               <?php endif; ?>
 
-
+              </center>
               </td>
             </tr>
             <?php
