@@ -27,8 +27,9 @@
         <link rel="stylesheet" href="style.css">
         <style type="text/css">
             body {
-                background-color: slateblue;
-            }
+          background-image: url(index.jpg);
+          background-size: cover;
+        }
         </style>
     </head>
     <body>
@@ -37,7 +38,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
         <div class="page-header">
-          <h2 id="login" style="text-align: center;">Login Form</h2>
+          <strong><h2 id="login" style="text-align: center;">Login Form</h2></strong>
         </div>
         </div>
     </div>

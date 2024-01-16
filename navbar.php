@@ -14,9 +14,9 @@ if (session_status() == PHP_SESSION_NONE) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php">American Football</a>
+      <a class="navbar-brand" href="index.php"><img src="logo.png" style="position: relative; width: 100px; bottom: 2px;"></a>
     </div>
- 
+    
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
