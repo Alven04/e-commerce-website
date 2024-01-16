@@ -13,8 +13,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>American Football Equipment and Supplies : Products</title>
   <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
- 
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>  
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -102,7 +102,8 @@
       <div class="page-header">
         <h2>Products List</h2>
       </div>
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered display" id="myTable">
+        <thead>
         <tr>
           <th>Product ID</th>
           <th>Name</th>
@@ -112,19 +113,16 @@
           <th>Weight</th>
           <th>Rating</th>
           <th>Quantity</th>
+          <th></th>
         </tr>
+      </thead>
+      <tbody>
        <?php
-      // Read
-      $per_page = 5;
-      if (isset($_GET["page"]))
-        $page = $_GET["page"];
-      else
-        $page = 1;
-      $start_from = ($page-1) * $per_page;
+    
       try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM tbl_products_a186683_pt2 LIMIT $start_from, $per_page");
+        $stmt = $conn->prepare("SELECT * FROM tbl_products_a186683_pt2");
         $stmt->execute();
         $result = $stmt->fetchAll();
       }
@@ -150,10 +148,20 @@
           
           <a href="products.php?delete=<?php echo $readrow['fld_product_num']; ?>" onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs" role="button" <?php echo ($_SESSION['access'] === 'N') ? 'disabled' : ''; ?>>Delete</a>
           
-  
         </td>
       </tr>
       
+
+
+      <?php
+      }
+      $conn = null;
+      ?>
+    </tbody>
+
+    </table>
+  </div>
+</div>
 <div class="modal fade" id="viewdataModal" tabindex="-1" aria-labelledby="viewdataLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -170,58 +178,18 @@
     </div>
   </div>
 </div>
-
-      <?php
-      }
-      $conn = null;
-      ?>
-    </table>
-  </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-      <nav>
-          <ul class="pagination">
-          <?php
-          try {
-            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $conn->prepare("SELECT * FROM tbl_products_a186683_pt2");
-            $stmt->execute();
-            $result = $stmt->fetchAll();
-            $total_records = count($result);
-          }
-          catch(PDOException $e){
-                echo "Error: " . $e->getMessage();
-          }
-          $total_pages = ceil($total_records / $per_page);
-          ?>
-          <?php if ($page==1) { ?>
-            <li class="disabled"><span aria-hidden="true">«</span></li>
-          <?php } else { ?>
-            <li><a href="products.php?page=<?php echo $page-1 ?>" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-          <?php
-          }
-          for ($i=1; $i<=$total_pages; $i++)
-            if ($i == $page)
-              echo "<li class=\"active\"><a href=\"products.php?page=$i\">$i</a></li>";
-            else
-              echo "<li><a href=\"products.php?page=$i\">$i</a></li>";
-          ?>
-          <?php if ($page==$total_pages) { ?>
-            <li class="disabled"><span aria-hidden="true">»</span></li>
-          <?php } else { ?>
-            <li><a href="products.php?page=<?php echo $page+1 ?>" aria-label="Previous"><span aria-hidden="true">»</span></a></li>
-          <?php } ?>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</div>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <!-- responsive -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+
+
     <script>
     jQuery(document).ready(function() {
         $('.detail_btn').click(function(e) {
@@ -249,5 +217,38 @@
           
         });
     });
+    jQuery(document).ready(function($) {
+      var table = $('#myTable').DataTable({
+
+        paging_type: 'full_numbers',
+        columnDefs: [{
+          targets: [3, 4],
+          searchable: false
+        }],
+        order: [
+          [1, "asc"]
+        ],
+        pageLength: 5,
+        lengthMenu: [
+          [5, 10, 20, 30, -1],
+          [5, 10, 20, 30, "All"]
+        ],
+        buttons: [
+
+          {
+            extend: 'excel',
+            exportOptions: {
+              columns: ':visible:not(.exclude-columns)'
+            }
+          }
+        ]
+      });
+      // Move Buttons container above DataTable
+      table.buttons().container()
+        .appendTo($('.dataTables_wrapper'))
+        .addClass('dt-buttons-bottom-right');
+
+    });
+    
 </script>
 
