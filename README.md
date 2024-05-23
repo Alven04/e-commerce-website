@@ -1,4 +1,4 @@
-# Web Programming Project
+# Web Programming Project (E-commerce)
 Welcome to our web programming project! This project aims to showcase our skills in web development and programming. 
 
 # Table of Contents
